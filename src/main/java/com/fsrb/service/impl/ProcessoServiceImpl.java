@@ -1,5 +1,6 @@
 package com.fsrb.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
+import com.fsrb.integration.Integration;
+import com.fsrb.integration.Localidade;
 import com.fsrb.repository.ProcessoRepository;
 import com.fsrb.service.ProcessoService;
 
@@ -18,6 +21,9 @@ public class ProcessoServiceImpl implements ProcessoService {
 	
 	@Autowired
 	private ProcessoRepository processoRepository;
+	
+	@Autowired
+	private Integration integration;
 	
 	@Override
 	public ProcessoRecord save(ProcessoRecord processoRecord) {
@@ -50,6 +56,11 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Override
 	public void deleteById(Long id) {
 		processoRepository.deleteById(id);
+	}
+	
+	@Override
+	public List<Localidade> municipios(String uf ) {
+		return integration.findMunicipio(uf);
 	}
 
 }

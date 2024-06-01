@@ -1,5 +1,6 @@
 package com.fsrb.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
+import com.fsrb.integration.Localidade;
 
 public interface ProcessoService {
 
@@ -19,5 +21,7 @@ public interface ProcessoService {
 	ProcessoRecord updateById(Long id, ProcessoRecord processoRecord);
 
 	void deleteById(Long id);
+
+	List<Localidade> municipios(String uf);
 
 }

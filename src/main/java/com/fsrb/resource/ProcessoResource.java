@@ -1,5 +1,7 @@
 package com.fsrb.resource;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
+import com.fsrb.integration.Localidade;
 import com.fsrb.service.ProcessoService;
 
 import jakarta.validation.Valid;
@@ -33,7 +36,7 @@ public class ProcessoResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(processoRecord);
 	}
 	
-	@GetMapping("/")
+	@GetMapping()
 	public ResponseEntity<Page<Processo>> findAll(Pageable pageable) {
 		Page<Processo> processos = processoService.findAll(pageable);
 		return ResponseEntity.ok(processos);
@@ -55,6 +58,11 @@ public class ProcessoResource {
 	public ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
 		processoService.deleteById(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/localidades/{uf}")
+	public ResponseEntity<List<Localidade>> localidades(@PathVariable("uf") String uf) {
+		return ResponseEntity.ok(processoService.municipios(uf));
 	}
 
 }
