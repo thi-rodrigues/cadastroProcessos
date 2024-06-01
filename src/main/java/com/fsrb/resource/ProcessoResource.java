@@ -46,7 +46,7 @@ public class ProcessoResource {
 	}
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ProcessoRecord> updateById(@PathVariable("id") Long id, ProcessoRecord processoRecord) {
+	public ResponseEntity<ProcessoRecord> updateById(@PathVariable("id") Long id, @RequestBody @Valid ProcessoRecord processoRecord) {
 		ProcessoRecord processoupdate = processoService.updateById(id, processoRecord);
 		return ResponseEntity.ok(processoupdate);
 	}

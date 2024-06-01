@@ -39,6 +39,11 @@ public class ProcessoServiceImpl implements ProcessoService {
 	
 	@Override
 	public ProcessoRecord updateById(Long id, ProcessoRecord processoRecord) {
+		findById(id).ifPresent(p -> {
+			Processo processo = new Processo(id, processoRecord.nome(), 
+				processoRecord.npu(), processoRecord.dataCadastro(), null, null, null);
+			processoRepository.save(processo);
+		});
 		return processoRecord;
 	}
 	
