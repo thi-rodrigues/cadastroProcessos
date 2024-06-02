@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsrb.domain.Processo;
@@ -37,8 +37,10 @@ public class ProcessoResource {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<Page<Processo>> findAll(Pageable pageable) {
-		Page<Processo> processos = processoService.findAll(pageable);
+	public ResponseEntity<Page<Processo>> findAll(
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "5") int size) {
+		Page<Processo> processos = processoService.findAll(page, size);
 		return ResponseEntity.ok(processos);
 	}
 	

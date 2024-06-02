@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.fsrb.domain.Processo;
@@ -36,8 +36,9 @@ public class ProcessoServiceImpl implements ProcessoService {
 	}
 	
 	@Override
-	public Page<Processo> findAll(Pageable pageable) {
-		return processoRepository.findAll(pageable);
+	public Page<Processo> findAll(int page, int size) {
+		PageRequest pageRequest = obterRequisicaoPaginada(page, size);
+		return processoRepository.findAll(pageRequest);
 	}
 	
 	@Override
@@ -68,5 +69,9 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Override
 	public List<Localidade> findEstados() {
 		return integration.findEstados();
+	}
+	
+	private PageRequest obterRequisicaoPaginada(int page, int size) {
+		return PageRequest.of(page, size);
 	}
 }

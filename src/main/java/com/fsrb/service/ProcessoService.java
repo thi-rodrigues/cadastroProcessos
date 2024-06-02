@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
@@ -14,7 +13,7 @@ public interface ProcessoService {
 
 	ProcessoRecord save(ProcessoRecord processoRecord);
 
-	Page<Processo> findAll(Pageable pageable);
+	Page<Processo> findAll(int page, int size);
 
 	Optional<Processo> findById(Long id);
 
@@ -25,5 +24,4 @@ public interface ProcessoService {
 	List<Localidade> findMunicipios(String uf);
 
 	List<Localidade> findEstados();
-
 }
