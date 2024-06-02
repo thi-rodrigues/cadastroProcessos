@@ -71,4 +71,10 @@ public class ProcessoResource {
 	public ResponseEntity<List<Localidade>> municipios(@PathVariable("uf") String uf) {
 		return ResponseEntity.ok(processoService.findMunicipios(uf));
 	}
+	
+	@GetMapping("/viewProcesso/{id}")
+	public ResponseEntity<List<Localidade>> viewProcesso(@PathVariable("id") Long id) {
+		processoService.viewProcesso(id);
+		return ResponseEntity.ok().build();
+	}
 }

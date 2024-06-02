@@ -49,7 +49,7 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Override
 	public ProcessoRecord updateById(Long id, ProcessoRecord processoRecord) {
 		findById(id).ifPresent(p -> {
-			Processo processo = new Processo(id, processoRecord.npu(), p.getDataCadastro(), processoRecord.dataVisualizacao(),
+			Processo processo = new Processo(id, processoRecord.npu(), p.getDataCadastro(), p.getDataVisualizacao(),
 					processoRecord.municipio(), processoRecord.uf());
 			processoRepository.save(processo);
 		});
@@ -69,6 +69,12 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Override
 	public List<Localidade> findEstados() {
 		return integration.findEstados();
+	}
+	
+	@Override
+	public void viewProcesso(Long id) {
+		LocalDateTime now = LocalDateTime.now();
+		processoRepository.updateDataVisualizacao(now, id);
 	}
 	
 	private PageRequest obterRequisicaoPaginada(int page, int size) {

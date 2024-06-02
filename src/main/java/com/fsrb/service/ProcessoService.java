@@ -24,4 +24,6 @@ public interface ProcessoService {
 	List<Localidade> findMunicipios(String uf);
 
 	List<Localidade> findEstados();
+
+	void viewProcesso(Long id);
 }
