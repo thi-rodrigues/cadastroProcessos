@@ -1,5 +1,6 @@
 package com.fsrb.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class ProcessoServiceImpl implements ProcessoService {
 	public ProcessoRecord save(ProcessoRecord processoRecord) {
 		Processo processo = new Processo();
 		BeanUtils.copyProperties(processoRecord, processo);
+		processo.setDataCadastro(LocalDateTime.now());
 		processoRepository.save(processo);
 		return processoRecord;
 	}
@@ -46,7 +48,8 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Override
 	public ProcessoRecord updateById(Long id, ProcessoRecord processoRecord) {
 		findById(id).ifPresent(p -> {
-			Processo processo = new Processo(id, processoRecord.npu(), processoRecord.dataCadastro(), null, null, null);
+			Processo processo = new Processo(id, processoRecord.npu(), p.getDataCadastro(), processoRecord.dataVisualizacao(),
+					processoRecord.municipio(), processoRecord.uf());
 			processoRepository.save(processo);
 		});
 		return processoRecord;

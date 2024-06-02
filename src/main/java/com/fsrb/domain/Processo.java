@@ -1,11 +1,14 @@
 package com.fsrb.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import jakarta.persistence.Entity;
@@ -33,15 +36,16 @@ public class Processo implements Serializable {
 	@NotBlank
 	private String npu;
 
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@NotNull
 	private LocalDateTime dataCadastro;
 	
-	private LocalDateTime dataVisualizacao;
+	@NotNull
+	private LocalDate dataVisualizacao;
 
+	@NotNull
 	private String municipio;
 
+	@NotNull
 	private String uf;
 	
 //	private String uploadDocumento;

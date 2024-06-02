@@ -1,7 +1,7 @@
 package com.fsrb.domain.record;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-public record ProcessoRecord(Long id, String npu, LocalDateTime dataCadastro, String uf) {
+public record ProcessoRecord(String npu, LocalDate dataVisualizacao, String municipio, String uf) {
 
 }
