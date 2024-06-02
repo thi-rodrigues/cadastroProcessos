@@ -22,6 +22,8 @@ public interface ProcessoService {
 
 	void deleteById(Long id);
 
-	List<Localidade> municipios(String uf);
+	List<Localidade> findMunicipios(String uf);
+
+	List<Localidade> findEstados();
 
 }

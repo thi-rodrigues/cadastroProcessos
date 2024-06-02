@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
-import com.fsrb.integration.Integration;
 import com.fsrb.integration.Localidade;
+import com.fsrb.integration.LocalidadeIntegration;
 import com.fsrb.repository.ProcessoRepository;
 import com.fsrb.service.ProcessoService;
 
@@ -23,7 +23,7 @@ public class ProcessoServiceImpl implements ProcessoService {
 	private ProcessoRepository processoRepository;
 	
 	@Autowired
-	private Integration integration;
+	private LocalidadeIntegration integration;
 	
 	@Override
 	public ProcessoRecord save(ProcessoRecord processoRecord) {
@@ -46,8 +46,7 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Override
 	public ProcessoRecord updateById(Long id, ProcessoRecord processoRecord) {
 		findById(id).ifPresent(p -> {
-			Processo processo = new Processo(id, processoRecord.nome(), 
-				processoRecord.npu(), processoRecord.dataCadastro(), null, null, null);
+			Processo processo = new Processo(id, processoRecord.npu(), processoRecord.dataCadastro(), null, null, null);
 			processoRepository.save(processo);
 		});
 		return processoRecord;
@@ -59,8 +58,12 @@ public class ProcessoServiceImpl implements ProcessoService {
 	}
 	
 	@Override
-	public List<Localidade> municipios(String uf ) {
+	public List<Localidade> findMunicipios(String uf ) {
 		return integration.findMunicipio(uf);
 	}
 
+	@Override
+	public List<Localidade> findEstados() {
+		return integration.findEstados();
+	}
 }

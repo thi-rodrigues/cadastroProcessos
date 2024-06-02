@@ -31,9 +31,6 @@ public class Processo implements Serializable {
 	private Long id;
 
 	@NotBlank
-	private String nome;
-
-	@NotBlank
 	private String npu;
 
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)

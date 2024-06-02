@@ -60,9 +60,13 @@ public class ProcessoResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping("/localidades/{uf}")
-	public ResponseEntity<List<Localidade>> localidades(@PathVariable("uf") String uf) {
-		return ResponseEntity.ok(processoService.municipios(uf));
+	@GetMapping("/ufs")
+	public ResponseEntity<List<Localidade>> estados() {
+		return ResponseEntity.ok(processoService.findEstados());
 	}
 
+	@GetMapping("/municipios/{uf}")
+	public ResponseEntity<List<Localidade>> municipios(@PathVariable("uf") String uf) {
+		return ResponseEntity.ok(processoService.findMunicipios(uf));
+	}
 }

@@ -6,4 +6,5 @@ import lombok.Data;
 public class Localidade {
 
 	private String nome;
+	private String sigla;
 }
