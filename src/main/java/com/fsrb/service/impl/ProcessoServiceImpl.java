@@ -1,14 +1,22 @@
 package com.fsrb.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
@@ -16,6 +24,7 @@ import com.fsrb.integration.Localidade;
 import com.fsrb.integration.LocalidadeIntegration;
 import com.fsrb.repository.ProcessoRepository;
 import com.fsrb.service.ProcessoService;
+import com.google.gson.Gson;
 
 @Service
 public class ProcessoServiceImpl implements ProcessoService {
@@ -26,13 +35,41 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Autowired
 	private LocalidadeIntegration integration;
 	
+	@Value("${diretorioUpload}")
+	private String diretorioUpload;
+	
 	@Override
-	public ProcessoRecord save(ProcessoRecord processoRecord) {
+	public ProcessoRecord save(String processoJSON, MultipartFile file) {
+		Gson gson = new Gson();
+		ProcessoRecord processoRecord = gson.fromJson(processoJSON, ProcessoRecord.class);
+		
 		Processo processo = new Processo();
 		BeanUtils.copyProperties(processoRecord, processo);
+		
+		String pathUploadDocumento = uploadFile(file);
+		processo.setPathUploadDocumento(pathUploadDocumento);
+		
 		processo.setDataCadastro(LocalDateTime.now());
 		processoRepository.save(processo);
 		return processoRecord;
+	}
+	
+	private String uploadFile(MultipartFile fileUpload) {
+		String pathUploadDocumento = null;
+		File file = new File(diretorioUpload + fileUpload.getOriginalFilename(), "");
+		
+		File parentFile = file.getParentFile();
+		boolean mkdir = parentFile.mkdir();
+		if (!mkdir) {
+			try {
+				Path write = Files.write(Paths.get(file.getAbsolutePath()), fileUpload.getBytes(), StandardOpenOption.WRITE, 
+						StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+				pathUploadDocumento = write.toString();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return pathUploadDocumento;
 	}
 	
 	@Override
@@ -49,7 +86,7 @@ public class ProcessoServiceImpl implements ProcessoService {
 	@Override
 	public ProcessoRecord updateById(Long id, ProcessoRecord processoRecord) {
 		findById(id).ifPresent(p -> {
-			Processo processo = new Processo(id, processoRecord.npu(), p.getDataCadastro(), p.getDataVisualizacao(),
+			Processo processo = new Processo(id, processoRecord.npu(), p.getDataCadastro(),
 					processoRecord.municipio(), processoRecord.uf());
 			processoRepository.save(processo);
 		});
@@ -80,4 +117,5 @@ public class ProcessoServiceImpl implements ProcessoService {
 	private PageRequest obterRequisicaoPaginada(int page, int size) {
 		return PageRequest.of(page, size);
 	}
+
 }

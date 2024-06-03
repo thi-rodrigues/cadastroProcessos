@@ -40,7 +40,6 @@ public class Processo implements Serializable {
 	@Column(name = "data_cadastro")
 	private LocalDateTime dataCadastro;
 	
-	@NotNull
 	@Column(name = "data_visualizacao")
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -52,5 +51,16 @@ public class Processo implements Serializable {
 	@NotNull
 	private String uf;
 	
-//	private String uploadDocumento;
+	@NotNull
+	private String pathUploadDocumento;
+	
+	public Processo(Long id, String npu, LocalDateTime dataCadastro,
+			String municipio, String uf) {
+		this.id = id;
+		this.npu = npu;
+		this.dataCadastro = dataCadastro;
+		this.municipio = municipio;
+		this.uf = uf;
+	}
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
@@ -31,8 +32,10 @@ public class ProcessoResource {
 	private ProcessoService processoService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<ProcessoRecord> save(@RequestBody @Valid ProcessoRecord processoRecord) {
-		processoService.save(processoRecord);
+	public ResponseEntity<ProcessoRecord> save(
+			@RequestParam("processo") String processo,
+			@RequestParam("file") MultipartFile file) {
+		ProcessoRecord processoRecord = processoService.save(processo, file);
 		return ResponseEntity.status(HttpStatus.CREATED).body(processoRecord);
 	}
 	
