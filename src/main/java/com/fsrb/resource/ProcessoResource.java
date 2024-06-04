@@ -1,6 +1,7 @@
 package com.fsrb.resource;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,8 +46,8 @@ public class ProcessoResource {
 	}
 	
 	@GetMapping("/find/{id}")
-	public ResponseEntity<Processo> findById(@PathVariable("id") Long id) {
-		Processo processo = processoService.findById(id).get();
+	public ResponseEntity<Optional<Processo>> findById(@PathVariable("id") Long id) {
+		Optional<Processo> processo = processoService.findById(id);
 		return ResponseEntity.ok(processo);
 	}
 	
