@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +20,6 @@ import com.fsrb.domain.Processo;
 import com.fsrb.domain.record.ProcessoRecord;
 import com.fsrb.integration.Localidade;
 import com.fsrb.service.ProcessoService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/processo")
@@ -54,8 +51,11 @@ public class ProcessoResource {
 	}
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ProcessoRecord> updateById(@PathVariable("id") Long id, @RequestBody @Valid ProcessoRecord processoRecord) {
-		ProcessoRecord processoupdate = processoService.updateById(id, processoRecord);
+	public ResponseEntity<ProcessoRecord> updateById(
+			@PathVariable("id") Long id,
+			@RequestParam("processo") String processo,
+			@RequestParam("file") MultipartFile file) {
+		ProcessoRecord processoupdate = processoService.updateById(id, processo, file);
 		return ResponseEntity.ok(processoupdate);
 	}
 	

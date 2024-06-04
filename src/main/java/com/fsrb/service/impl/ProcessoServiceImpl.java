@@ -84,10 +84,14 @@ public class ProcessoServiceImpl implements ProcessoService {
 	}
 	
 	@Override
-	public ProcessoRecord updateById(Long id, ProcessoRecord processoRecord) {
+	public ProcessoRecord updateById(Long id, String processoJSON, MultipartFile file) {
+		Gson gson = new Gson();
+		ProcessoRecord processoRecord = gson.fromJson(processoJSON, ProcessoRecord.class);
+		String pathUploadDocumento = uploadFile(file);
+		
 		findById(id).ifPresent(p -> {
 			Processo processo = new Processo(id, processoRecord.npu(), p.getDataCadastro(),
-					processoRecord.municipio(), processoRecord.uf());
+					processoRecord.municipio(), processoRecord.uf(), pathUploadDocumento);
 			processoRepository.save(processo);
 		});
 		return processoRecord;

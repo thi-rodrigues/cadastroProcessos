@@ -18,7 +18,7 @@ public interface ProcessoService {
 
 	Optional<Processo> findById(Long id);
 
-	ProcessoRecord updateById(Long id, ProcessoRecord processoRecord);
+	ProcessoRecord updateById(Long id, String processo, MultipartFile file);
 
 	void deleteById(Long id);
 

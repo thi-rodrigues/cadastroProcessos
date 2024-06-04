@@ -55,12 +55,13 @@ public class Processo implements Serializable {
 	private String pathUploadDocumento;
 	
 	public Processo(Long id, String npu, LocalDateTime dataCadastro,
-			String municipio, String uf) {
+			String municipio, String uf, String pathUploadDocumento) {
 		this.id = id;
 		this.npu = npu;
 		this.dataCadastro = dataCadastro;
 		this.municipio = municipio;
 		this.uf = uf;
+		this.pathUploadDocumento = pathUploadDocumento;
 	}
 
 }
